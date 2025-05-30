@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>商品一覧</title>
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+	<!-- 共通ヘッダーの読み込み -->
+	<!-- templates/common/header.html -->
+	<div th:replace="common/header :: header"></div>
+	<h1>商品一覧</h1>
+
+	<main>
+		<section>
+			<div th:each="product : ${products}" class="product-card">
+				<h2>
+					<a th:href="@{'/products/' + ${product.id}}"
+						th:text="${product.name}">商品名</a>
+				</h2>
+				<!-- 商品画像 -->
+				<a th:href="@{'/products/' + ${product.id}}"> <img
+					th:src="@{${product.imageUrl}}" alt="商品画像" class="product-image" />
+				</a>
+
+				<p>
+					<span th:if="${product.isOnSale()}"> <span class="old-price"
+						th:text="'¥' + ${product.price}"></span> <span class="sale-price"
+						th:text="'¥' + ${product.salePrice}"></span>
+					</span> <span th:unless="${product.isOnSale()}"
+						th:text="'¥' + ${product.price}"></span>
+				</p>
+
+				<p th:text="'在庫数: ' + ${product.stock}">在庫</p>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2025 オリジナルブランドECサイト</p>
+	</footer>
+</body>
+</html>

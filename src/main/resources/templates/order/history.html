@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>注文履歴</title>
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+	<div th:replace="common/header :: header"></div>
+
+	<h1>注文履歴</h1>
+
+	<div th:if="${orderHistory.isEmpty()}">
+		<p>注文履歴がありません。</p>
+	</div>
+
+	<div th:unless="${orderHistory.isEmpty()}">
+		<table border="1">
+			<tr>
+				<th>注文日</th>
+				<th>合計金額</th>
+				<th>ステータス</th>
+				<th>商品詳細</th>
+			</tr>
+			<tr th:each="order : ${orderHistory}">
+				<td
+					th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+				<td th:text="${order.totalPrice} + ' 円'"></td>
+				<td th:text="${order.status}"></td>
+				<td>
+					<ul>
+						<li th:each="item : ${order.orderItems}"><span
+							th:text="${item.product.name} + ' x ' + ${item.quantity}"></span>
+						</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<a href="/products">← 商品一覧に戻る</a>
+</body>
+</html>
