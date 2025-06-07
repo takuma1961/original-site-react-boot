@@ -1,17 +1,11 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.demo.entity.CartItem;
 import com.example.demo.entity.User;
 import com.example.demo.service.CartService;
-import com.example.demo.service.CustomUserDetails;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -60,21 +54,21 @@ public class PageController {
 	public String adminDashboard() {
 		return "admin/admin_dashboard"; // templates/admin/admin_dashboard.html を返す
 	}
-
-	//カート画面表示
-	@GetMapping("/cart")
-	public String showCart(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-		Long userId = userDetails.getUserId();
-
-		List<CartItem> cartItems = cartService.getCartItemsByUserId(userId);
-		int totalPrice = cartService.calculateTotal(cartItems);
-
-		model.addAttribute("cartItems", cartItems);
-		model.addAttribute("totalPrice", totalPrice);
-
-		return "cart_page";
-	}
+//2025/6/7削除（React実装）
+//	//カート画面表示
+//	@GetMapping("/cart")
+//	public String showCart(Model model) {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+//		Long userId = userDetails.getUserId();
+//
+//		List<CartItem> cartItems = cartService.getCartItemsByUserId(userId);
+//		int totalPrice = cartService.calculateTotal(cartItems);
+//
+//		model.addAttribute("cartItems", cartItems);
+//		model.addAttribute("totalPrice", totalPrice);
+//
+//		return "cart_page";
+//	}
 
 }
