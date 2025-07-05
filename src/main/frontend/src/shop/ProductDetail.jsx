@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from '../components/Header';
+import '../components/styles/Style.css';
 
 const ProductDetail = () => {
   const { id } = useParams();

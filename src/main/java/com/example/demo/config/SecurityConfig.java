@@ -1,7 +1,7 @@
 package com.example.demo.config;
 
-import java.util.List;
-
+import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -66,7 +66,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 						.requestMatchers("/", "/register", "/login", "/css/**", "/js/**", "/images/**",
-								"/admin_register", "/login_admin", "/Admin/AddAdminRegister", "/admin/products",
+								"/admin_register", "/login_admin", "/Admin/AddAdminregister",
 								"/api/**", "/products", "/order/**", "/cart/**")
 						.permitAll()
 						.anyRequest().authenticated())
@@ -88,17 +88,36 @@ public class SecurityConfig {
 		return http.build();
 	}
 
+	/**
+	 * CORS設定：React(ポート3000)を許可し、Cookie送信も許可
+	 */
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Reactの起動URL
-		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-		configuration.setAllowedHeaders(List.of("*"));
-		configuration.setAllowCredentials(true);
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    configuration.setAllowCredentials(true); // ← これが最重要
+	    configuration.addAllowedOrigin("http://localhost:3000"); // フロントのURL
+	    configuration.addAllowedHeader("*");
+	    configuration.addAllowedMethod("*");
 
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
 	}
 
+
+	//最近のブラウザでは、SameSite 属性がない Cookie はブロックされることがあるため以下でSameSite 属性を設定
+	/**
+	 * TomcatのCookieのSameSite属性を"Lax"に設定
+	 * ローカル開発でhttpsを使わない場合はこちら推奨
+	 */
+	@Bean
+	public TomcatServletWebServerFactory tomcatServletWebServerFactory() {
+		TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
+		factory.addContextCustomizers(context -> {
+			Rfc6265CookieProcessor cookieProcessor = new Rfc6265CookieProcessor();
+			cookieProcessor.setSameSiteCookies("Lax"); // "None" にすると https が必要
+			context.setCookieProcessor(cookieProcessor);
+		});
+		return factory;
+	}
 }

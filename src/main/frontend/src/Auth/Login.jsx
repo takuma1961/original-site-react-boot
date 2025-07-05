@@ -1,6 +1,7 @@
 // src/Login.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 
@@ -36,6 +37,7 @@ function Login() {
   };
 
   return (
+	<div>
     <form onSubmit={handleSubmit}>
       <h1>ログイン</h1>
       <div>
@@ -57,6 +59,9 @@ function Login() {
       {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       <button type="submit">ログイン</button>
     </form>
+    <Link to="/AdminLogin">📜 管理者の方はこちら</Link>
+    </div>
+    
   );
 }
 

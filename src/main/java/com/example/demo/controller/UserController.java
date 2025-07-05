@@ -33,7 +33,7 @@ public class UserController {
 	@PostMapping("/register")
 	public String register(@ModelAttribute User user, HttpServletRequest request, Model model) {
 		try {
-			user.setRole(Role.USER);
+			user.setRole(Role.ROLE_USER);
 			userService.registerUser(user); // メール認証を省略して即登録
 			return "redirect:/login";//登録成功時はログイン画面にリダイレクト
 			//			model.addAttribute("message", "登録が完了しました。");

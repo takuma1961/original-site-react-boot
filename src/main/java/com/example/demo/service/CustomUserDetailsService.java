@@ -27,10 +27,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+		String roleName = user.getRole().name(); // Enum → String
+		String finalRole = roleName.startsWith("ROLE_") ? roleName : "ROLE_" + roleName;
 
-		List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+		//List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+		List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(finalRole));
 
 		return new CustomUserDetails(user, authorities);
 	}
-
 }

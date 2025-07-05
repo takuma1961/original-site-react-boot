@@ -32,7 +32,7 @@ public class PaymentRepositoryTest {
     @Test
     public void testSaveAndFindPayment() {
         // ユーザー作成・保存
-        User user = new User("takuma1999@outlook.com", "password1111", Role.ADMIN);
+        User user = new User("takuma1999@outlook.com", "password1111", Role.ROLE_ADMIN);
         user = entityManager.persistAndFlush(user);
 
         // 注文作成・保存
@@ -57,7 +57,7 @@ public class PaymentRepositoryTest {
     @Test
     public void testDeletePayment() {
         // ユーザー作成・保存
-        User user = new User("testuser@example.com", "password123", Role.USER);
+        User user = new User("testuser@example.com", "password123", Role.ROLE_USER);
         user = entityManager.persistAndFlush(user);
 
         // 注文作成・保存
