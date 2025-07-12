@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	//emaiでユーザーを検索するメソッド
 	Optional<User> findByEmail(String email);
+	
+	//token検索
+	 Optional<User> findByResetToken(String token);
 }

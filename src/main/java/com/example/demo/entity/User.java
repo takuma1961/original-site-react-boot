@@ -42,10 +42,15 @@ public class User {
 
 	private Boolean enabled = false;
 
+	private String resetToken; // 20250705追加トークン保存用
+
+	private LocalDateTime tokenExpiry; // 20250705追加トークン有効期限
+
 	// --- Constructors ---
 
 	// JPA用のデフォルトコンストラクタ
-	public User() {}
+	public User() {
+	}
 
 	// 新規ユーザー作成用コンストラクタ
 	public User(String email, String password, Role role) {
@@ -134,9 +139,27 @@ public class User {
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 	public boolean isEnabled() {
-	    return enabled != null && enabled;
+		return enabled != null && enabled;
 	}
+
+	public String getResetToken() {
+		return resetToken;
+	}
+
+	public void setResetToken(String resetToken) {
+		this.resetToken = resetToken;
+	}
+
+	public LocalDateTime getTokenExpiry() {
+		return tokenExpiry;
+	}
+
+	public void setTokenExpiry(LocalDateTime tokenExpiry) {
+		this.tokenExpiry = tokenExpiry;
+	}
+	
+	
 
 }

@@ -59,13 +59,14 @@ const ProductDetail = () => {
       <div className="product-detail-container">
         <h1>{product.name}</h1>
 
-        <img
-          src={`http://localhost:8080/${product.imageUrl}`}
-          alt="商品画像"
-          className="product-image"
-          style={{ maxWidth: "300px" }}
-        />
-
+        <div className="product-image-wrapper">
+          <img
+            src={`http://localhost:8080/${product.imageUrl}`}
+            alt="商品画像"
+            className="product-image"
+            //style={{ maxWidth: "300px" }}
+          />
+        </div>
         <p>
           {product.salePrice ? (
             <>

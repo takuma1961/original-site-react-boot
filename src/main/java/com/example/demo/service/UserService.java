@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,4 +46,32 @@ public class UserService {
 		// トークン認証の処理は不要
 		return true; // 仮に成功扱いにする
 	}
+
+	public boolean resetPassword(String token, String newPassword) {
+		Optional<User> tokenOpt = userRepository.findByResetToken(token);
+
+		if (tokenOpt.isEmpty()) {
+			return false;
+		}
+
+		User user = tokenOpt.get();
+
+		//トークンの有効期限チェック
+		if (user.getTokenExpiry() == null || user.getTokenExpiry().isBefore(LocalDateTime.now())) {
+		    return false;
+		}
+
+
+		// パスワード更新
+		user.setPassword(passwordEncoder.encode(newPassword));
+
+		// トークンの無効化
+		user.setResetToken(null);
+		user.setTokenExpiry(null);
+
+		userRepository.save(user);
+
+		return true;
+	}
+
 }

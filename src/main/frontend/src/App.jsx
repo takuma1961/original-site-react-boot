@@ -10,6 +10,9 @@ import Career from "./pages/Career";
 import AdminLogin from "./Auth/AdminLogin";
 import AdminRegister from "./Auth/AdminRegister";
 import AdminHome from "./pages/AdminHome";
+import Register from "./Auth/Register";
+import ForgotPassword from "./Auth/ForgotPassword";
+import ResetPassword from "./Auth/ResetPassword";
 function App() {
   return (
     <Router>
@@ -24,6 +27,10 @@ function App() {
         <Route path="/AdminLogin" element={<AdminLogin />} />
         <Route path="/AdminRegister" element={<AdminRegister />} />
         <Route path="/AdminHome" element={<AdminHome />} />
+        <Route path="/Register" element={<Register />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
       </Routes>
     </Router>
   );

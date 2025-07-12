@@ -59,7 +59,12 @@ function Login() {
       {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       <button type="submit">ログイン</button>
     </form>
+    <br />
+    <Link to="/Register">新規管理者情報の登録画面はこちら</Link>
+    <br />
     <Link to="/AdminLogin">📜 管理者の方はこちら</Link>
+    <br />
+    <Link to="/ForgotPassword">🔑 パスワードを忘れた場合はこちら</Link>
     </div>
     
   );
