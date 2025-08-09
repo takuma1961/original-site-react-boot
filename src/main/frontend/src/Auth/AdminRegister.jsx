@@ -7,12 +7,13 @@ function AdminRegister() {
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const navigate = useNavigate();
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:8080/Admin/AddAdminregister", {
+            const response = await fetch(`${apiBaseUrl}/Admin/AddAdminregister`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -34,6 +35,7 @@ function AdminRegister() {
             }
         } catch (error) {
             console.error("エラー:", error);
+            console.log(`${apiBaseUrl}/Admin/AddAdminregister`);
             setErrorMsg("サーバーエラーが発生しました");
         }
     };

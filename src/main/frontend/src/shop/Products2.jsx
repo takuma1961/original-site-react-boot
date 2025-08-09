@@ -6,9 +6,10 @@ import Header from '../components/Header';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
-    fetch("http://localhost:8080/products", {
+    fetch(`${apiBaseUrl}/products`, {
       credentials: "include", // 認証Cookieが必要な場合
     })
       .then(res => res.json())
@@ -33,7 +34,7 @@ const Products = () => {
           {products.map(product => (
             <div key={product.id} className="product-card">
               <h2><Link to={`/products/${product.id}`}>{product.name}</Link></h2>
-              <Link to={`/products/${product.id}`}><img src={`http://localhost:8080/${product.imageUrl}`} alt={product.name} className="product-image" /></Link>
+              <Link to={`/products/${product.id}`}><img src={`${apiBaseUrl}/${product.imageUrl}`} alt={product.name} className="product-image" /></Link>
               <p>
                 {product.onSale ? (
                   <>

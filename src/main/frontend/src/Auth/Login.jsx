@@ -12,12 +12,13 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
   //
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:8080/perform_login", {
+    const response = await fetch(`${apiBaseUrl}/perform_login`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       // フォーム送信と同じくURLエンコード形式で送る場合

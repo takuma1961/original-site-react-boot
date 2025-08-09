@@ -6,28 +6,51 @@ function AdminLogin() {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await fetch("http://localhost:8080/perform_login", {
+    const response = await fetch(`${apiBaseUrl}/perform_login`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({ username: email, password: password, }),
       credentials: "include",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        username: email,
-        password: password,
-      }),
-      credentials: "include", // Cookieを使う場合
     });
 
     if (response.ok) {
-      // 管理者ユーザーがログイン成功したと仮定して管理者ホーム画面へ遷移
-      navigate("/AdminHome");
-    } else {
       const data = await response.json();
-      setErrorMsg(data.error);//Spring側のJSONで定義したエラーメッセージを反映
+      if (data.role === "ADMIN") {
+        navigate("/AdminHome"); // ← SPA内で遷移
+      } else {
+        navigate("/home");
+      }
+    } else {
+      // エラーメッセージを受け取って表示
+      const data = await response.json().catch(() => null);
+      setErrorMsg(data?.error || "ログインに失敗しました。");
     }
+
+    //開発用
+    //   const response = await fetch(`${apiBaseUrl}/perform_login`, {
+    //     method: "POST",
+    //     credentials: "include",
+    //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    //     body: new URLSearchParams({
+    //       username: email,
+    //       password: password,
+    //     }),
+    //     credentials: "include", // Cookieを使う場合
+    //   });
+
+    //   if (response.ok) {
+    //     // 管理者ユーザーがログイン成功したと仮定して管理者ホーム画面へ遷移
+    //     navigate("/AdminHome");
+    //   } else {
+    //     const data = await response.json();
+    //     setErrorMsg(data.error);//Spring側のJSONで定義したエラーメッセージを反映
+    //   }
   };
 
   return (

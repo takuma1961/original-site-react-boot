@@ -4,9 +4,10 @@ import Header from '../components/Header';
 const OrderHistory = () => {
     const [orderHistory, setOrderHistory] = useState([]);
     const [loading, setLoading] = useState(true);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
     useEffect(() => {
-        fetch("http://localhost:8080/order/history", {
+        fetch(`${apiBaseUrl}/order/history`, {
             credentials: "include",
         })
             .then((res) => res.json())

@@ -8,9 +8,10 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [message, setMessage] = useState("");
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
-    fetch(`http://localhost:8080/products/${id}`, {
+    fetch(`${apiBaseUrl}/products/${id}`, {
       method: "GET",
       credentials: "include", // ← これが超重要（セッション/Cookieを送信）
     })
@@ -27,7 +28,7 @@ const ProductDetail = () => {
   const handleAddToCart = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/cart/add", {
+      const response = await fetch(`${apiBaseUrl}/cart/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -61,7 +62,7 @@ const ProductDetail = () => {
 
         <div className="product-image-wrapper">
           <img
-            src={`http://localhost:8080/${product.imageUrl}`}
+            src={`${apiBaseUrl}/${product.imageUrl}`}
             alt="商品画像"
             className="product-image"
             //style={{ maxWidth: "300px" }}

@@ -1,11 +1,16 @@
 package com.example.demo.config;
 
+import java.util.List;
+
 import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import com.example.demo.service.CustomUserDetailsService;
 
@@ -60,10 +66,11 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-				.cors().and()
+				.cors(Customizer.withDefaults())
 				.csrf(csrf -> csrf.disable())
 				.authenticationProvider(authenticationProvider())
 				.authorizeHttpRequests(auth -> auth
+						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // ← 追加
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 						.requestMatchers("/", "/register", "/login", "/css/**", "/js/**", "/images/**",
 								"/admin_register", "/login_admin", "/Admin/AddAdminregister",
@@ -74,7 +81,7 @@ public class SecurityConfig {
 						.authenticationEntryPoint(customAuthenticationEntryPoint))
 				.formLogin(form -> form
 						.loginProcessingUrl("/perform_login")
-						.loginPage("/login")
+						//.loginPage("/login") 開発環境ではコメントを外す、ec2ではコメントアウト
 						.usernameParameter("username")
 						.passwordParameter("password")
 						.successHandler(customAuthenticationSuccessHandler())
@@ -93,17 +100,25 @@ public class SecurityConfig {
 	 */
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
-	    CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.setAllowCredentials(true); // ← これが最重要
-	    configuration.addAllowedOrigin("http://localhost:3000"); // フロントのURL
-	    configuration.addAllowedHeader("*");
-	    configuration.addAllowedMethod("*");
 
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", configuration);
-	    return source;
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowedOrigins(List.of("https://d3iu7cobg7buke.cloudfront.net"));
+		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		config.setAllowedHeaders(List.of("*"));
+		config.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", config);
+		return source;
+		//		configuration.setAllowCredentials(true); // ← これが最重要
+		//		configuration.addAllowedOrigin("http://localhost:3000"); // フロントのURL
+		//		configuration.addAllowedHeader("*");
+		//		configuration.addAllowedMethod("*");
+		//
+		//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		//		source.registerCorsConfiguration("/**", configuration);
+		//		return source;
 	}
-
 
 	//最近のブラウザでは、SameSite 属性がない Cookie はブロックされることがあるため以下でSameSite 属性を設定
 	/**
@@ -120,4 +135,13 @@ public class SecurityConfig {
 		});
 		return factory;
 	}
+	
+	@Bean
+	public FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
+	    FilterRegistrationBean<ForwardedHeaderFilter> filterRegBean = new FilterRegistrationBean<>();
+	    filterRegBean.setFilter(new ForwardedHeaderFilter());
+	    filterRegBean.setOrder(0);
+	    return filterRegBean;
+	}
+
 }

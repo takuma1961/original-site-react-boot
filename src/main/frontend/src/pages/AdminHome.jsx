@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 function AdminHome() {
     const [products, setProducts] = useState([]);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const [newProduct, setNewProduct] = useState({
         name: "",
         price: "",
@@ -15,7 +16,7 @@ function AdminHome() {
 
     // //初回ロード時に商品一覧取得
     useEffect(() => {
-        fetch("http://localhost:8080/admin/products", {
+        fetch(`${apiBaseUrl}/admin/products`, {
             method: "GET",
             credentials: "include", // 認証Cookieが必要な場合
         })
@@ -34,7 +35,7 @@ function AdminHome() {
 
     const fetchProducts = async () => {
         try {
-            const res = await fetch("http://localhost:8080/admin/products", {
+            const res = await fetch(`${apiBaseUrl}/admin/products`, {
                 method: "GET",
                 credentials: "include", // ← ここに追加
             });
@@ -47,7 +48,7 @@ function AdminHome() {
 
     const handleDelete = async (id) => {
         try {
-            await fetch(`http://localhost:8080/admin/products/delete/${id}`,
+            await fetch(`${apiBaseUrl}/admin/products/delete/${id}`,
                 {
                     method: "DELETE",
                     credentials: "include",
@@ -62,7 +63,7 @@ function AdminHome() {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            await fetch("http://localhost:8080/admin/products/add",
+            await fetch(`${apiBaseUrl}/admin/products/add`,
                 {
                     method: "POST",
                     credentials: "include",
@@ -86,7 +87,7 @@ function AdminHome() {
 
     const handleUpdate = async (product) => {
         try {
-            await fetch("http://localhost:8080/admin/products/update",
+            await fetch(`${apiBaseUrl}/admin/products/update`,
                 {
                     method: "PUT",
                     credentials: "include",

@@ -9,6 +9,7 @@ const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
     const handleReset = async (e) => {
         e.preventDefault();
@@ -19,7 +20,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const res = await fetch('http://localhost:8080/api/users/reset-password', {
+            const res = await fetch(`${apiBaseUrl}/api/users/reset-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, newPassword: password }),

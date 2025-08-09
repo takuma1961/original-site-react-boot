@@ -5,9 +5,10 @@ const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [loading, setLoading] = useState(true);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
     useEffect(() => {
-        fetch("http://localhost:8080/cart", {
+        fetch(`${apiBaseUrl}/cart`, {
             credentials: "include",
         })
             .then(res => res.json())
@@ -24,7 +25,7 @@ const Cart = () => {
 
     // カート情報を再取得する関数
     const fetchCart = () => {
-        fetch("http://localhost:8080/cart", {
+        fetch(`${apiBaseUrl}/cart`, {
             credentials: "include",
         })
             .then(res => res.json())
@@ -55,7 +56,7 @@ const Cart = () => {
             params.append("quantities", item.quantity);
         });
         try {
-            const response = await fetch("http://localhost:8080/cart/update", {
+            const response = await fetch(`${apiBaseUrl}/cart/update`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -81,7 +82,7 @@ const Cart = () => {
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch("http://localhost:8080/cart/delete", {
+            const response = await fetch(`${apiBaseUrl}/cart/delete`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -114,7 +115,7 @@ const Cart = () => {
         if (!confirmCheckout) return;
 
         try {
-            const response = await fetch("http://localhost:8080/order/checkout", {
+            const response = await fetch(`${apiBaseUrl}/order/checkout`, {
                 method: "POST",
                 credentials: "include",
             });
