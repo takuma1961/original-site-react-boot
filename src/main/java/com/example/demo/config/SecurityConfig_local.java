@@ -27,8 +27,8 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("prod")
-public class SecurityConfig {
+@Profile("local")
+public class SecurityConfig_local {
 
 	private final CustomUserDetailsService userDetailsService;
 	private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -104,7 +104,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOrigins(List.of("https://d3iu7cobg7buke.cloudfront.net"));
+		config.setAllowedOrigins(List.of("https://localhost:3000"));
 		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		config.setAllowedHeaders(List.of("*"));
 		config.setAllowCredentials(true);
@@ -132,7 +132,7 @@ public class SecurityConfig {
 		TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
 		factory.addContextCustomizers(context -> {
 			Rfc6265CookieProcessor cookieProcessor = new Rfc6265CookieProcessor();
-			cookieProcessor.setSameSiteCookies("Lax"); // "None" にすると https が必要
+			cookieProcessor.setSameSiteCookies("None"); // "None" にすると https が必要
 			context.setCookieProcessor(cookieProcessor);
 		});
 		return factory;
