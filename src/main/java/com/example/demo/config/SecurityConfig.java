@@ -8,17 +8,17 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import com.example.demo.service.CustomUserDetailsService;
@@ -32,10 +32,10 @@ public class SecurityConfig {
 
 	private final CustomUserDetailsService userDetailsService;
 	private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-	//	@Bean
-	//	public PasswordEncoder passwordEncoder() {
-	//		return new BCryptPasswordEncoder();
-	//	}
+	
+	// フィールドとしてハンドラを持たせる
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
@@ -56,39 +56,39 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-		return new CustomAuthenticationSuccessHandler();
-	}
-
-	@Bean
-	public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
-		return new CustomAuthenticationFailureHandler();
-	}
-
-	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-				.cors(Customizer.withDefaults())
+				// HTTPS強制（単純に全リクエスト）
+				//★.requiresChannel(channel -> channel.anyRequest().requiresSecure())
+				//.requestMatchers("/perform_login").requiresSecure()
+
+				// CSRF 無効
 				.csrf(csrf -> csrf.disable())
+
+				// 認証プロバイダ
 				.authenticationProvider(authenticationProvider())
+
+				// URLごとの認可
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // ← 追加
+						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
-						.requestMatchers("/", "/register", "/login", "/css/**", "/js/**", "/images/**",
-								"/admin_register", "/login_admin", "/Admin/AddAdminregister",
-								"/api/**", "/products", "/order/**", "/cart/**")
-						.permitAll()
+						.requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/images/**").permitAll()
 						.anyRequest().authenticated())
+
+				// 例外処理
 				.exceptionHandling(exception -> exception
 						.authenticationEntryPoint(customAuthenticationEntryPoint))
+
+				// フォームログイン
 				.formLogin(form -> form
 						.loginProcessingUrl("/perform_login")
-						//.loginPage("/login") 開発環境ではコメントを外す、ec2ではコメントアウト
 						.usernameParameter("username")
 						.passwordParameter("password")
-						.successHandler(customAuthenticationSuccessHandler())
-						.failureHandler(customAuthenticationFailureHandler())
+						.successHandler(customAuthenticationSuccessHandler) // ← フィールドを参照
+						.failureHandler(customAuthenticationFailureHandler) // ← フィールドを参照
 						.permitAll())
+
+				// ログアウト
 				.logout(logout -> logout
 						.logoutUrl("/logout")
 						.logoutSuccessUrl("/login?logout=true")
@@ -97,53 +97,39 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	/**
-	 * CORS設定：React(ポート3000)を許可し、Cookie送信も許可
-	 */
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOrigins(List.of("https://d3iu7cobg7buke.cloudfront.net"));
-		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-		config.setAllowedHeaders(List.of("*"));
-		config.setAllowCredentials(true);
-
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", config);
-		return source;
-		//		configuration.setAllowCredentials(true); // ← これが最重要
-		//		configuration.addAllowedOrigin("http://localhost:3000"); // フロントのURL
-		//		configuration.addAllowedHeader("*");
-		//		configuration.addAllowedMethod("*");
-		//
-		//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		//		source.registerCorsConfiguration("/**", configuration);
-		//		return source;
-	}
-
-	//最近のブラウザでは、SameSite 属性がない Cookie はブロックされることがあるため以下でSameSite 属性を設定
-	/**
-	 * TomcatのCookieのSameSite属性を"Lax"に設定
-	 * ローカル開発でhttpsを使わない場合はこちら推奨
-	 */
+	// Cookie SameSite=None にしてHTTPS必須
 	@Bean
 	public TomcatServletWebServerFactory tomcatServletWebServerFactory() {
 		TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
 		factory.addContextCustomizers(context -> {
 			Rfc6265CookieProcessor cookieProcessor = new Rfc6265CookieProcessor();
-			cookieProcessor.setSameSiteCookies("Lax"); // "None" にすると https が必要
+			cookieProcessor.setSameSiteCookies("None");
 			context.setCookieProcessor(cookieProcessor);
 		});
 		return factory;
 	}
-	
+
 	@Bean
 	public FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
-	    FilterRegistrationBean<ForwardedHeaderFilter> filterRegBean = new FilterRegistrationBean<>();
-	    filterRegBean.setFilter(new ForwardedHeaderFilter());
-	    filterRegBean.setOrder(0);
-	    return filterRegBean;
+		FilterRegistrationBean<ForwardedHeaderFilter> filterRegBean = new FilterRegistrationBean<>();
+		filterRegBean.setFilter(new ForwardedHeaderFilter());
+		filterRegBean.setOrder(0);
+		return filterRegBean;
 	}
 
+	@Bean
+	@Order(0)
+	public FilterRegistrationBean<CorsFilter> corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowedOriginPatterns(List.of("https://d3iu7cobg7buke.cloudfront.net"));
+		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		config.setAllowedHeaders(List.of("*"));
+		config.setAllowCredentials(true);
+		source.registerCorsConfiguration("/**", config);
+
+		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+		bean.setOrder(0); // SecurityFilterChain より前に実行
+		return bean;
+	}
 }

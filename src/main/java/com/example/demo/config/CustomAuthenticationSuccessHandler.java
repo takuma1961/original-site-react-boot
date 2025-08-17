@@ -4,55 +4,33 @@ import java.io.IOException;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
-	//開発用
-//	public void onAuthenticationSuccess(
-//			HttpServletRequest request,
-//			HttpServletResponse response,
-//			Authentication authentication)
-//			throws IOException, ServletException {
-//		//react用に追加2025/5/29 start
-//		response.setStatus(HttpServletResponse.SC_OK);
-//		response.setContentType("application/json");
-//		response.getWriter().write("{\"message\": \"Login successful\"}");
-//		//react用に追加2025/5/29 end
-//		
-//		// ユーザーのロールに応じてリダイレクト先を変更
-//		boolean isAdmin = false;
-//		for (GrantedAuthority auth : authentication.getAuthorities()) {
-//			if ("ROLE_ADMIN".equals(auth.getAuthority())) {
-//				isAdmin = true;
-//				break;
-//			}
-//		}
-//
-//		if (isAdmin) {
-//			response.sendRedirect("/admin/products"); // 管理者用ホーム
-//		} else {
-//			response.sendRedirect("/home"); // 一般ユーザー用ホーム
-//		}
-//	}
 	public void onAuthenticationSuccess(
-	        HttpServletRequest request,
-	        HttpServletResponse response,
-	        Authentication authentication)
-	        throws IOException, ServletException {
-	    
-	    response.setStatus(HttpServletResponse.SC_OK);
-	    response.setContentType("application/json");
-	    
-	    boolean isAdmin = authentication.getAuthorities().stream()
-	            .anyMatch(auth -> "ROLE_ADMIN".equals(auth.getAuthority()));
-	    
-	    response.getWriter().write("{\"message\": \"Login successful\", \"role\": \"" 
-	                               + (isAdmin ? "ADMIN" : "USER") + "\"}");
-	}
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Authentication authentication)
+			throws IOException, ServletException {
 
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.setContentType("application/json;charset=UTF-8");
+
+		boolean isAdmin = authentication.getAuthorities().stream()
+				.anyMatch(auth -> "ROLE_ADMIN".equals(auth.getAuthority()));
+
+		String json = String.format(
+				"{\"message\": \"Login successful\", \"role\": \"%s\"}",
+				isAdmin ? "ADMIN" : "USER");
+
+		response.getWriter().write(json);
+		response.getWriter().flush();
+	}
 }
