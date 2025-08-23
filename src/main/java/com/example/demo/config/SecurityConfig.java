@@ -114,6 +114,7 @@ public class SecurityConfig {
 			cookieProcessor.setSameSiteCookies("None");// クロスオリジンで送信可能
 			context.setCookieProcessor(cookieProcessor);
 		});
+		factory.getSession().getCookie().setSecure(true); //20250824 HTTPSでcookieを保持する
 		return factory;
 	}
 
