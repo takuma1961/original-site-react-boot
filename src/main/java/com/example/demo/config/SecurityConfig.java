@@ -8,7 +8,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,9 +16,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.ForwardedHeaderFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.demo.service.CustomUserDetailsService;
 
@@ -65,6 +64,15 @@ public class SecurityConfig {
 				// CSRF 無効
 				.csrf(csrf -> csrf.disable())
 
+				.cors(cors -> cors.configurationSource(request -> {
+		            CorsConfiguration config = new CorsConfiguration();
+		            config.setAllowedOriginPatterns(List.of("https://d3iu7cobg7buke.cloudfront.net"));
+		            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		            config.setAllowedHeaders(List.of("*"));
+		            config.setAllowCredentials(true);
+		            return config;
+		        }))
+				
 				// 認証プロバイダ
 				.authenticationProvider(authenticationProvider())
 
@@ -72,7 +80,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
-						.requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/images/**").permitAll()
+						.requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/images/**" , "/Admin/**").permitAll()
 						.anyRequest().authenticated())
 
 				// 例外処理
@@ -103,7 +111,7 @@ public class SecurityConfig {
 		TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
 		factory.addContextCustomizers(context -> {
 			Rfc6265CookieProcessor cookieProcessor = new Rfc6265CookieProcessor();
-			cookieProcessor.setSameSiteCookies("None");
+			cookieProcessor.setSameSiteCookies("None");// クロスオリジンで送信可能
 			context.setCookieProcessor(cookieProcessor);
 		});
 		return factory;
@@ -116,20 +124,34 @@ public class SecurityConfig {
 		filterRegBean.setOrder(0);
 		return filterRegBean;
 	}
-
+	
 	@Bean
-	@Order(0)
-	public FilterRegistrationBean<CorsFilter> corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOriginPatterns(List.of("https://d3iu7cobg7buke.cloudfront.net"));
-		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-		config.setAllowedHeaders(List.of("*"));
-		config.setAllowCredentials(true);
-		source.registerCorsConfiguration("/**", config);
-
-		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-		bean.setOrder(0); // SecurityFilterChain より前に実行
-		return bean;
+	public WebMvcConfigurer corsConfigurer() {
+	    return new WebMvcConfigurer() {
+	        @Override
+	        public void addCorsMappings(CorsRegistry registry) {
+	            registry.addMapping("/**")
+	                    .allowedOriginPatterns("https://d3iu7cobg7buke.cloudfront.net")
+	                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+	                    .allowedHeaders("*")
+	                    .allowCredentials(true);
+	        }
+	    };
 	}
+
+//	@Bean
+//	@Order(0)
+//	public FilterRegistrationBean<CorsFilter> corsFilter() {
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		CorsConfiguration config = new CorsConfiguration();
+//		config.setAllowedOriginPatterns(List.of("https://d3iu7cobg7buke.cloudfront.net"));
+//		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//		config.setAllowedHeaders(List.of("*"));
+//		config.setAllowCredentials(true);
+//		source.registerCorsConfiguration("/**", config);
+//
+//		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+//		bean.setOrder(0); // SecurityFilterChain より前に実行
+//		return bean;
+//	}
 }
