@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from "react";
+import Header from '../components/AdminHeader';
 
 function AdminHome() {
     const [products, setProducts] = useState([]);
@@ -12,7 +13,7 @@ function AdminHome() {
         imagePath: "",
     });
     const [message, setMessage] = useState("");
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true);
 
     // //初回ロード時に商品一覧取得
     useEffect(() => {
@@ -59,6 +60,7 @@ function AdminHome() {
             console.error("削除失敗", err);
         }
     };
+
 
     const handleAdd = async (e) => {
         e.preventDefault();
@@ -107,120 +109,128 @@ function AdminHome() {
         }
     };
 
-    return (<div className="p-6"> <h2 className="text-xl font-bold mb-4">管理者ダッシュボード</h2>
-        {message && <p className="text-green-600">{message}</p>}
 
-        <form onSubmit={handleAdd} className="mb-6 space-y-2">
-            <h3 className="text-lg font-semibold">商品追加</h3>
-            <input
-                type="text"
-                placeholder="商品名"
-                value={newProduct.name}
-                onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-                required
-            />
-            <input
-                type="number"
-                placeholder="価格"
-                value={newProduct.price}
-                onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-                required
-            />
-            <input
-                type="number"
-                placeholder="在庫数"
-                value={newProduct.stock}
-                onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
-                required
-            />
-            <input
-                type="text"
-                placeholder="説明"
-                value={newProduct.description}
-                onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
-            />
-            <input
-                type="text"
-                placeholder="画像URL"
-                value={newProduct.imagePath}
-                onChange={(e) => setNewProduct({ ...newProduct, imagePath: e.target.value })}
-            />
-            <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">追加</button>
-        </form>
+    return (
+        <div className="p-6">
+            <>            {/**共通ヘッダー */}
+                <Header />
 
-        <h3 className="text-lg font-semibold mb-2">商品一覧</h3>
-        <table className="w-full table-auto border border-collapse border-gray-300">
-            <thead>
-                <tr className="bg-gray-100">
-                    <th>商品名</th>
-                    <th>価格</th>
-                    <th>在庫</th>
-                    <th>画像パス</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                {products.map((prod) => (
-                    <tr key={prod.id} className="border-b">
-                        <td>
-                            <input
-                                type="text"
-                                value={prod.name}
-                                onChange={(e) =>
-                                    setProducts(products.map((p) =>
-                                        p.id === prod.id ? { ...p, name: e.target.value } : p
-                                    ))
-                                }
-                            />
-                        </td>
-                        <td>
-                            <input
-                                type="number"
-                                value={prod.price}
-                                onChange={(e) =>
-                                    setProducts(products.map((p) =>
-                                        p.id === prod.id ? { ...p, price: e.target.value } : p
-                                    ))
-                                }
-                            />
-                        </td>
-                        <td>
-                            <input
-                                type="number"
-                                value={prod.stock}
-                                onChange={(e) =>
-                                    setProducts(products.map((p) =>
-                                        p.id === prod.id ? { ...p, stock: e.target.value } : p
-                                    ))
-                                }
-                            />
-                        </td>
-                        <td>
-                            <input
-                                type="text"
-                                value={prod.imageUrl}
-                                onChange={(e) =>
-                                    setProducts(products.map((p) =>
-                                        p.id === prod.id ? { ...p, imageUrl: e.target.value } : p
-                                    ))
-                                }
-                            />
-                        </td>
-                        <td>
-                            <button onClick={() => handleUpdate(prod)} className="text-blue-600 mr-2">
-                                更新
-                            </button>
-                            <button onClick={() => handleDelete(prod.id)} className="text-red-600">
-                                削除
-                            </button>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-    </div>
+                <h2 className="text-xl font-bold mb-4">管理者ダッシュボード</h2>
+                {message && <p className="text-green-600">{message}</p>}
+
+                <form onSubmit={handleAdd} className="mb-6 space-y-2">
+                    <h3 className="text-lg font-semibold">商品追加</h3>
+                    <input
+                        type="text"
+                        placeholder="商品名"
+                        value={newProduct.name}
+                        onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+                        required
+                    />
+                    <input
+                        type="number"
+                        placeholder="価格"
+                        value={newProduct.price}
+                        onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+                        required
+                    />
+                    <input
+                        type="number"
+                        placeholder="在庫数"
+                        value={newProduct.stock}
+                        onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="説明"
+                        value={newProduct.description}
+                        onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+                    />
+                    <input
+                        type="text"
+                        placeholder="画像URL"
+                        value={newProduct.imagePath}
+                        onChange={(e) => setNewProduct({ ...newProduct, imagePath: e.target.value })}
+                    />
+                    <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">追加</button>
+                </form>
+
+                <h3 className="text-lg font-semibold mb-2">商品一覧</h3>
+                <table className="w-full table-auto border border-collapse border-gray-300">
+                    <thead>
+                        <tr className="bg-gray-100">
+                            <th>商品名</th>
+                            <th>価格</th>
+                            <th>在庫</th>
+                            <th>画像パス</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products.map((prod) => (
+                            <tr key={prod.id} className="border-b">
+                                <td>
+                                    <input
+                                        type="text"
+                                        value={prod.name}
+                                        onChange={(e) =>
+                                            setProducts(products.map((p) =>
+                                                p.id === prod.id ? { ...p, name: e.target.value } : p
+                                            ))
+                                        }
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        value={prod.price}
+                                        onChange={(e) =>
+                                            setProducts(products.map((p) =>
+                                                p.id === prod.id ? { ...p, price: e.target.value } : p
+                                            ))
+                                        }
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        value={prod.stock}
+                                        onChange={(e) =>
+                                            setProducts(products.map((p) =>
+                                                p.id === prod.id ? { ...p, stock: e.target.value } : p
+                                            ))
+                                        }
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        value={prod.imageUrl}
+                                        onChange={(e) =>
+                                            setProducts(products.map((p) =>
+                                                p.id === prod.id ? { ...p, imageUrl: e.target.value } : p
+                                            ))
+                                        }
+                                    />
+                                </td>
+                                <td>
+                                    <button onClick={() => handleUpdate(prod)} className="text-blue-600 mr-2">
+                                        更新
+                                    </button>
+                                    <button onClick={() => handleDelete(prod.id)} className="text-red-600">
+                                        削除
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </>
+        </div>
 
     );
 }
+
 
 export default AdminHome;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Header from '../components/AdminHeader';
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -36,6 +37,8 @@ function AdminLogin() {
 
   return (
     <div>
+    <>            {/**共通ヘッダー */}
+            <Header />
       <form onSubmit={handleSubmit}>
         <h1>管理者ログイン</h1>
         <div>
@@ -59,7 +62,8 @@ function AdminLogin() {
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
         <button type="submit">ログイン</button>
       </form>
-      <Link to="/AdminRegister">新規管理者情報の登録画面はこちら</Link>
+      <Link to="/AdminRegister">新規管理者情報登録画面</Link>
+        </>
     </div>
   );
 }

@@ -8,7 +8,7 @@ export const Top = () => {
         <TopWrapper id="top">
             <MySkillsSwiper />
             <ContentWrapper>
-                <TopTitle>takuma's Portfolio</TopTitle>
+                <TopTitle>Takuma's Career</TopTitle>
                 {/* <ImageIcon src='/icon.svg'></ImageIcon> */}
             </ContentWrapper>
         </TopWrapper>

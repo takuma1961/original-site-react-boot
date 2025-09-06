@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Header from "components/Header2.jsx";
 
 
 
@@ -38,36 +39,39 @@ function Login() {
   };
 
   return (
-	<div>
-    <form onSubmit={handleSubmit}>
-      <h1>ログイン</h1>
+    <>
+      <Header />
       <div>
-        <label>メールアドレス:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required />
+        <form onSubmit={handleSubmit}>
+          <h1>ログイン</h1>
+          <div>
+            <label>メールアドレス:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required />
+          </div>
+          <div>
+            <label>パスワード:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required />
+          </div>
+          {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+          <button type="submit">ログイン</button>
+        </form>
+        <br />
+        <Link to="/Register">新規管理者情報の登録画面はこちら</Link>
+        <br />
+        <Link to="/AdminLogin">📜 管理者の方はこちら</Link>
+        <br />
+        <Link to="/ForgotPassword">🔑 パスワードを忘れた場合はこちら</Link>
       </div>
-      <div>
-        <label>パスワード:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required />
-      </div>
-      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-      <button type="submit">ログイン</button>
-    </form>
-    <br />
-    <Link to="/Register">新規管理者情報の登録画面はこちら</Link>
-    <br />
-    <Link to="/AdminLogin">📜 管理者の方はこちら</Link>
-    <br />
-    <Link to="/ForgotPassword">🔑 パスワードを忘れた場合はこちら</Link>
-    </div>
-    
+    </>
+
   );
 }
 

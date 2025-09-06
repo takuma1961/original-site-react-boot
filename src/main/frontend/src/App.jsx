@@ -6,30 +6,34 @@ import Products from "./shop/Products";
 import ProductDetail from "./shop/ProductDetail";
 import Cart from "./shop/Cart";
 import OrderComplete from "./shop/OrderComplete";
-import Career from "./pages/Career";
 import AdminLogin from "./Auth/AdminLogin";
 import AdminRegister from "./Auth/AdminRegister";
 import AdminHome from "./pages/AdminHome";
 import Register from "./Auth/Register";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ResetPassword from "./Auth/ResetPassword";
+import PortfolioHome from "./pages/portfolioHome";
+import Profile from "pages/Profile";
+import MyProduct from "pages/Myproduct";
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<PortfolioHome />} />
+        <Route path="/Login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/OrderComplete" element={<OrderComplete />} />
-        <Route path="/Career" element={<Career />} />
+        <Route path="/Profile" element={<Profile />} />
         <Route path="/AdminLogin" element={<AdminLogin />} />
         <Route path="/AdminRegister" element={<AdminRegister />} />
         <Route path="/AdminHome" element={<AdminHome />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/MyProduct" element={<MyProduct />} />
 
       </Routes>
     </Router>

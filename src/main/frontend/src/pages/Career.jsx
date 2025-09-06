@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../components/Header2';
+import Header from "../components/PortfolioHeader.jsx";
 import { Top } from '../components/index/Top';
 import { Profile } from '../components/index/Profile';
 import { Journey } from '../components/index/Journey';
