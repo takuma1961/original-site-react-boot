@@ -15,6 +15,9 @@ import ResetPassword from "./Auth/ResetPassword";
 import PortfolioHome from "./pages/portfolioHome";
 import Profile from "pages/Profile";
 import MyProduct from "pages/Myproduct";
+import Skill from "pages/Skill";
+import Contact from "pages/Contact";
+
 function App() {
   return (
     <Router>
@@ -34,6 +37,8 @@ function App() {
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/MyProduct" element={<MyProduct />} />
+        <Route path="/Skill" element={<Skill />} />
+        <Route path="/Contact" element={<Contact />} />
 
       </Routes>
     </Router>

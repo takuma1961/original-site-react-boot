@@ -1,0 +1,72 @@
+import React from "react";
+import {
+  reactImg,
+  htmlCssImg,
+  jsImg,
+  javaImg,
+  mysqlImg,
+} from "assets/images/technic/techImages";
+import { gitImg } from "assets/images/study/studyImges";
+
+export const skillItems = [
+  {
+    title: "React",
+    text: "このポートフォリオを作成した言語です。書籍「りあクト！」とUdemyの講座で勉強しました。想像していたよりも難しかったですが、コンポーネント指向の考え方は好きです。",
+    img: reactImg,
+    name: "React",
+    width: 200,
+    height: 160,
+    rate: 3,
+    usedTechImg: [],
+  },
+  {
+    title: "mySQL",
+    text: "基本的なSQLで基礎を学びたかったので選択しました。postgreSQLもやってみたいと思っています",
+    img: mysqlImg,
+    name: "mysql",
+    width: 200,
+    height: 160,
+    rate: 2,
+    usedTechImg: [],
+  },
+  {
+    title: "Git",
+    text: "チーム開発には必須だと聞いたので使うようにしました。個人的なファイルも開発しているアプリケーションもGitHubで管理しています。",
+    img: gitImg,
+    name: "Git",
+    width: 200,
+    height: 160,
+    rate: 3,
+    usedTechImg: [],
+  },
+  {
+    title: "HTML/CSS",
+    text: "Progateと書籍を読んで勉強しました。その後は開発しながら覚えている最中です",
+    img: htmlCssImg,
+    name: "HTML CSS",
+    width: 200,
+    height: 160,
+    rate: 3,
+    usedTechImg: [],
+  },
+  {
+    title: "JavaScript",
+    text: "Progateと「JavaScript本格入門」を読んで勉強しました。その後はReactを使いながら覚えています。JavaScriptだけで開発したことはありません。",
+    img: jsImg,
+    name: "JavaScript",
+    width: 200,
+    height: 160,
+    rate: 3,
+    usedTechImg: [],
+  },
+  {
+    title: "Java",
+    text: "学校の講義で少しだけ使用しました。ガベージコレクションに感動していた覚えがあります。",
+    img: javaImg,
+    name: "Java ",
+    width: 200,
+    height: 160,
+    rate: 2,
+    usedTechImg: [],
+  },
+];

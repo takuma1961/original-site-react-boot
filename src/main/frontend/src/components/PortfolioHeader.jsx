@@ -10,8 +10,9 @@ export const PortfolioHeader = () => {
                 <ul>
                     <li><Link to="/">Takuma Portfolio</Link></li>
                     <li><Link to="/Profile">Profile</Link></li>
+                    <li><Link to="/Skill">Skill</Link></li>
                     <li><Link to="/MyProduct">MyProduct</Link></li>
-                    <li><Link to="/">Contact</Link></li>
+                    <li><Link to="/Contact">Contact</Link></li>
                 </ul>
             </div>
         </header>
