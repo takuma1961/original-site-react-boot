@@ -1,0 +1,40 @@
+{
+  "files": {
+    "main.css": "https://takuma1961.github.io/original-site-react-boot/static/css/main.e0747797.css",
+    "main.js": "https://takuma1961.github.io/original-site-react-boot/static/js/main.0006bfba.js",
+    "static/js/453.54292a4b.chunk.js": "https://takuma1961.github.io/original-site-react-boot/static/js/453.54292a4b.chunk.js",
+    "static/media/introduce.png": "https://takuma1961.github.io/original-site-react-boot/static/media/introduce.9d05744a1b7683b56c20.png",
+    "static/media/react4.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/react4.c7be4a362fe10007d23e.jpg",
+    "static/media/react2.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/react2.e8e346718b0a1875a1d1.jpg",
+    "static/media/react1.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/react1.46a8e2c5668111ad124e.jpg",
+    "static/media/react3.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/react3.7713b13750c2109b60b0.jpg",
+    "static/media/styled-components.png": "https://takuma1961.github.io/original-site-react-boot/static/media/styled-components.0fefccb0a398bba44766.png",
+    "static/media/udemyReact2.png": "https://takuma1961.github.io/original-site-react-boot/static/media/udemyReact2.3c5b9fba496e9382216d.png",
+    "static/media/udemyReact1.png": "https://takuma1961.github.io/original-site-react-boot/static/media/udemyReact1.be70ba6dd2bcfc154456.png",
+    "static/media/React.png": "https://takuma1961.github.io/original-site-react-boot/static/media/React.47f23ffbf2643e9e8864.png",
+    "static/media/Typescript.png": "https://takuma1961.github.io/original-site-react-boot/static/media/Typescript.c2eef6df8c253ae48ad3.png",
+    "static/media/Javascript.png": "https://takuma1961.github.io/original-site-react-boot/static/media/Javascript.029db7d4b814c1430763.png",
+    "static/media/udemyTS.png": "https://takuma1961.github.io/original-site-react-boot/static/media/udemyTS.57cc4a7c40e776d8fe38.png",
+    "static/media/udemyGit.png": "https://takuma1961.github.io/original-site-react-boot/static/media/udemyGit.e4dd3e8514ffa39d17f4.png",
+    "static/media/bookHTMLCSS1.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/bookHTMLCSS1.97799b87e75dbdc5d6a0.jpg",
+    "static/media/bookWeb1.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/bookWeb1.93e615b51f343c8aacc6.jpg",
+    "static/media/readable.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/readable.7fc78a993be64c60535d.jpg",
+    "static/media/back.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/back.72d55ecb59fecde2ad1f.jpg",
+    "static/media/HTML_CSS.png": "https://takuma1961.github.io/original-site-react-boot/static/media/HTML_CSS.5091f0aea825e1351e86.png",
+    "static/media/bookJS1.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/bookJS1.ecb717de52f4b7f94b48.jpg",
+    "static/media/Dog.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/Dog.ab2c1655368517ccf144.jpg",
+    "static/media/CUDA.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/CUDA.cc824a87a2cdac950637.jpg",
+    "static/media/youtube.png": "https://takuma1961.github.io/original-site-react-boot/static/media/youtube.88f2fabd56494c0fb926.png",
+    "static/media/C.png": "https://takuma1961.github.io/original-site-react-boot/static/media/C.b5557b32fb383325e11e.png",
+    "static/media/progate.png": "https://takuma1961.github.io/original-site-react-boot/static/media/progate.474c526cee12a01098a3.png",
+    "static/media/test_dev.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/test_dev.a311ca5fcfff2f3731dc.jpg",
+    "index.html": "https://takuma1961.github.io/original-site-react-boot/index.html",
+    "main.e0747797.css.map": "https://takuma1961.github.io/original-site-react-boot/static/css/main.e0747797.css.map",
+    "main.0006bfba.js.map": "https://takuma1961.github.io/original-site-react-boot/static/js/main.0006bfba.js.map",
+    "453.54292a4b.chunk.js.map": "https://takuma1961.github.io/original-site-react-boot/static/js/453.54292a4b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e0747797.css",
+    "static/js/main.0006bfba.js"
+  ]
+}
