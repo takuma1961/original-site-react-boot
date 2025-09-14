@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "https://takuma1961.github.io/original-site-react-boot/static/css/main.e0747797.css",
-    "main.js": "https://takuma1961.github.io/original-site-react-boot/static/js/main.f61f9351.js",
+    "main.css": "https://takuma1961.github.io/original-site-react-boot/static/css/main.3c3fb30b.css",
+    "main.js": "https://takuma1961.github.io/original-site-react-boot/static/js/main.786567e4.js",
     "static/js/453.54292a4b.chunk.js": "https://takuma1961.github.io/original-site-react-boot/static/js/453.54292a4b.chunk.js",
     "static/media/introduce.png": "https://takuma1961.github.io/original-site-react-boot/static/media/introduce.9d05744a1b7683b56c20.png",
     "static/media/react4.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/react4.c7be4a362fe10007d23e.jpg",
@@ -29,12 +29,12 @@
     "static/media/progate.png": "https://takuma1961.github.io/original-site-react-boot/static/media/progate.474c526cee12a01098a3.png",
     "static/media/test_dev.jpg": "https://takuma1961.github.io/original-site-react-boot/static/media/test_dev.a311ca5fcfff2f3731dc.jpg",
     "index.html": "https://takuma1961.github.io/original-site-react-boot/index.html",
-    "main.e0747797.css.map": "https://takuma1961.github.io/original-site-react-boot/static/css/main.e0747797.css.map",
-    "main.f61f9351.js.map": "https://takuma1961.github.io/original-site-react-boot/static/js/main.f61f9351.js.map",
+    "main.3c3fb30b.css.map": "https://takuma1961.github.io/original-site-react-boot/static/css/main.3c3fb30b.css.map",
+    "main.786567e4.js.map": "https://takuma1961.github.io/original-site-react-boot/static/js/main.786567e4.js.map",
     "453.54292a4b.chunk.js.map": "https://takuma1961.github.io/original-site-react-boot/static/js/453.54292a4b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e0747797.css",
-    "static/js/main.f61f9351.js"
+    "static/css/main.3c3fb30b.css",
+    "static/js/main.786567e4.js"
   ]
 }
