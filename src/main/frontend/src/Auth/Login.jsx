@@ -2,9 +2,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Header from "components/Header2.jsx";
-
-
 
 //loginはreactの関数コンポーネント、ログイン画面の動作を担当
 function Login() {
@@ -32,7 +29,7 @@ function Login() {
 
     if (response.ok) {
       // ログイン成功時の処理（画面遷移など）
-      navigate('/home');
+      navigate("/home");
     } else {
       setErrorMsg("メールアドレスまたはパスワードが違います");
     }
@@ -40,7 +37,6 @@ function Login() {
 
   return (
     <>
-      <Header />
       <div>
         <form onSubmit={handleSubmit}>
           <h1>ログイン</h1>
@@ -50,7 +46,8 @@ function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required />
+              required
+            />
           </div>
           <div>
             <label>パスワード:</label>
@@ -58,7 +55,8 @@ function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required />
+              required
+            />
           </div>
           {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
           <button type="submit">ログイン</button>
@@ -71,7 +69,6 @@ function Login() {
         <Link to="/ForgotPassword">🔑 パスワードを忘れた場合はこちら</Link>
       </div>
     </>
-
   );
 }
 

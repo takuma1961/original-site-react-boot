@@ -15,7 +15,6 @@ const Header = () => {
         <header className="site-header">
             <nav className="header-nav">
                 <ul className="nav-list">
-                    <li><Link to="/home">🏠 ホームへ戻る</Link></li>
                     <li><Link to="/products">🛍️ ショップ</Link></li>
                     <li><Link to="/contact">✉️ お問い合わせ</Link></li>
                     <li><button onClick={handleLogout} className="logout-button">🚪 ログアウト</button></li>

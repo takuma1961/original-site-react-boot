@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
 import Login from "./Auth/Login";
 import Home from "./pages/Home";
 import Products from "./shop/Products";
@@ -19,6 +19,10 @@ import Skill from "pages/Skill";
 import Contact from "pages/Contact";
 
 function App() {
+  // GitHub Pages では HashRouter を使う
+  const Router =
+    process.env.REACT_APP_DEPLOY_ENV === "github" ? HashRouter : BrowserRouter;
+
   return (
     <Router>
       <Routes>
@@ -39,7 +43,6 @@ function App() {
         <Route path="/MyProduct" element={<MyProduct />} />
         <Route path="/Skill" element={<Skill />} />
         <Route path="/Contact" element={<Contact />} />
-
       </Routes>
     </Router>
   );
