@@ -8,7 +8,7 @@ export const PortfolioHome = () => {
         <>
             <Header />
             <div className="component-container">
-            <img className="portfolioImg" src={DogImage} alt="Profile" />
+                <img className="portfolioImg" src={DogImage} alt="Profile" />
                 <h1>
                     <div>Thank You For Visiting</div>
                     <div>Takuma's Portfolio</div>

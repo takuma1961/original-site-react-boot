@@ -9,7 +9,7 @@ const Header = () => {
         sessionStorage.clear();//セッションをすべて削除
 
         //ログインページへ遷移
-        navigate('/');
+        navigate('/Login');
     };
     return (
         <header className="site-header">
